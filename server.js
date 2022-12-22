@@ -3,6 +3,12 @@ const express = require('express')
 const morgan = require('morgan')
 
 const config = require('./config')
+const mongoDb = require('./database/config/mongo')
+
+// Connecting db
+mongoDb
+  .once('open', function callback() { console.log('Connection with mongoDb succeeded.') })
+  .on('error', console.error.bind(console, 'connection error'))
 
 // Connecting express
 const app = express()
