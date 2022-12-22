@@ -9,7 +9,7 @@ pingController.getPing = asyncHandler(async (req, res) => {
     res.json({
         success: true,
         statusCode: 200,
-        message: "connected"
+        message: 'pong'
     })
 })
 

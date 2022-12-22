@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }))
 if (config.NODE_ENV !== 'production') app.use(morgan('dev'))
 
 // Routes
-app.use('api/auths/ping', pingRoutes)
+app.use('/api/ping', pingRoutes)
 
 // Error handler
 app.use(errorMiddleware.notFound)
