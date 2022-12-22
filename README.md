@@ -1,2 +1,2 @@
-# guset-book-api
+# guest-book-api
 A simple REST API for guest book using NodeJs Express
