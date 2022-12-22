@@ -1,5 +1,6 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcryptjs'
+const bcrypt = require('bcryptjs')
+const mongoose = require('mongoose')
+const roleTypes = require('../../consts/roleTypes')
 
 const adminSchema = mongoose.Schema({
     name: {
@@ -25,8 +26,10 @@ const adminSchema = mongoose.Schema({
         required: true,
         default: true
     },
-    lastLogin: {
-        type: Date
+    role: {
+        type: String,
+        required: true,
+        default: roleTypes.ADMIN
     },
 }, {
     timestamps: true
@@ -41,9 +44,8 @@ adminSchema.pre('save', async function(next) {
         next()
     }
     const salt = await bcrypt.genSalt(10)
-    this.password = bcrypt.hash(this.password, salt)
+    this.password = await bcrypt.hash(this.password, salt)
 })
 
 const Admin = mongoose.model('Admin', adminSchema)
-
-export default Admin
+module.exports = Admin
