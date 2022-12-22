@@ -4,6 +4,8 @@ const morgan = require('morgan')
 
 const config = require('./config')
 const mongoDb = require('./database/config/mongo')
+const errorMiddleware = require('./middlewares/errorMiddleware')
+// const pingRoutes = require('./routes/pingRoutes')
 
 // Connecting db
 mongoDb
@@ -18,6 +20,13 @@ app.use(express.urlencoded({ extended: false }))
 
 // Logging
 if (config.NODE_ENV !== 'production') app.use(morgan('dev'))
+
+// Routes
+// app.use('api/auths/ping', pingRoutes)
+
+// Error handler
+app.use(errorMiddleware.notFound)
+app.use(errorMiddleware.errorHandler)
 
 // Listening port
 app.listen(config.PORT, console.log('API server running on port:', `${config.APP_URL}:${config.PORT}`))
