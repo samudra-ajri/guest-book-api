@@ -7,7 +7,7 @@ const adminController = {}
 // @desc    Register admin
 // @route   POST /api/admins
 // @access  public
-adminController.registerAdmin = asyncHandler(async (req, res) => {
+adminController.register = asyncHandler(async (req, res) => {
     const { name, email, phone, password } = req.body
 
     const adminExists = await Admin.findOne({ email })
@@ -29,32 +29,30 @@ adminController.registerAdmin = asyncHandler(async (req, res) => {
     }
 })
 
-// // @desc    Authenticate a user
-// // @route   POST /api/users/login
-// // @access  Public
-// const loginUser = asyncHandler(async (req, res) => {
-//     const { userData, password, role } = req.body
+// @desc    Authenticate an admin
+// @route   POST /api/admins/auth
+// @access  Public
+adminController.auth = asyncHandler(async (req, res) => {
+    const { email, password } = req.body
 
-//     const loginMatch = [{ $or: [{ phone: userData }, { email: userData }, { username: userData }] }]
-//     if (role === roleTypes.GENERUS) {
-//         loginMatch.push({ role })
-//     } else {
-//         loginMatch.push({ role: { $ne: roleTypes.GENERUS } })
-//     }
-//     const user = await User.findOne({ $and: loginMatch })
-//     if (user && (await user.matchPassword(password))) {
-//         user.lastLogin = Date.now()
-//         await user.save()
-//         const { password, ...userData } = user._doc
-//         res.status(200).json({
-//             ...userData,
-//             token: generateToken(user._id)
-//         })
-//     } else {
-//         res.status(401)
-//         throw new Error('Invalid credentials')
-//     }
-// })
+    const admin = await Admin.findOne({ email })
+    if (admin && (await admin.matchPassword(password))) {
+        const data = {
+            id: admin.id,
+            token: authUtils.generateToken({ email: admin.email, role: admin.role }),
+        }
+    
+        res.status(200).json({
+            success: true,
+            statusCode: 200,
+            message: 'success',
+            data
+        })
+    } else {
+        res.status(401)
+        throw new Error('Data salah')
+    }
+})
 
 // // @desc    Get all users
 // // @route   GET /api/users?page=&limit=&search=
