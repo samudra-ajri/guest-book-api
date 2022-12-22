@@ -1,0 +1,36 @@
+{
+  "name": "guest-book-api",
+  "version": "1.0.0",
+  "description": "A simple guest book api using nodejs express",
+  "main": "server.js",
+  "scripts": {
+    "start:dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samudra-ajri/guest-book-api.git"
+  },
+  "keywords": [
+    "guest",
+    "book"
+  ],
+  "author": "bootcamp354",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samudra-ajri/guest-book-api/issues"
+  },
+  "homepage": "https://github.com/samudra-ajri/guest-book-api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.1",
+    "morgan": "^1.10.0"
+  }
+}
