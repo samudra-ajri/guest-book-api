@@ -70,12 +70,16 @@ adminController.list = asyncHandler(async (req, res) => {
         .sort('name')
         .select('-password')
 
+    const total = await Admin.count({})
+
     res.json({
         success: true,
         statusCode: 200,
         message: 'success',
         data: admins,
-        total: admins.length,
+        count: admins.length,
+        hasNextPage: admins.length == limit,
+        total,
     })
 })
 

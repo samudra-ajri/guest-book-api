@@ -42,17 +42,22 @@ guestController.create = asyncHandler(async (req, res) => {
 guestController.guestEventList = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10 } = req.query
     const { eventId } = req.params
+
     const guests = await Guest.find({ event: eventId })
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .sort('createdAt')
+
+    const total = await Guest.count({ event: eventId })
 
     res.json({
         success: true,
         statusCode: 200,
         message: 'success',
         data: guests,
-        total: guests.length,
+        count: guests.length,
+        hasNextPage: guests.length == limit,
+        total,
     })
 })
 

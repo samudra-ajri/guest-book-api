@@ -38,12 +38,16 @@ eventController.list = asyncHandler(async (req, res) => {
         .skip((page - 1) * limit)
         .sort('startedAt')
 
+    const total = await Event.count({})
+
     res.json({
         success: true,
         statusCode: 200,
         message: 'success',
         data: events,
-        total: events.length,
+        count: events.length,
+        hasNextPage: events.length == limit,
+        total,
     })
 })
 
