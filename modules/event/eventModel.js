@@ -16,6 +16,14 @@ const eventSchema = mongoose.Schema({
     endDate: {
         type: Date,
         required: true
+    },
+    createdBy: {
+        type: String,
+        required: false
+    },
+    updatedBy: {
+        type: String,
+        required: false
     }
 }, {
     timestamps: true

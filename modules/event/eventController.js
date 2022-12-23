@@ -15,7 +15,7 @@ eventController.create = asyncHandler(async (req, res) => {
         throw new Error('kegiatan sudah pernah dibuat')
     }
 
-    const event = await Event.create({ name, location, startDate, endDate })
+    const event = await Event.create({ name, location, startDate, endDate, createdBy: req.user.email })
     if (event) {
         res.status(201).json({
             success: true,
@@ -74,6 +74,7 @@ eventController.update = asyncHandler(async (req, res) => {
     event.location = req.body.location || event.location
     event.startDate = req.body.startDate || event.startDate
     event.endDate = req.body.endDate || event.endDate
+    event.updatedBy = req.user.email
     await event.save()
 
     res.json({

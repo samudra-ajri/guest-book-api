@@ -8,6 +8,7 @@ const errorMiddleware = require('./middlewares/errorMiddleware')
 const pingRoutes = require('./routes/pingRoutes')
 const adminRoutes = require('./routes/adminRoutes')
 const eventRoutes = require('./routes/eventRoutes')
+const guestRoutes = require('./routes/guestRoutes')
 
 // Connecting db
 mongoDb
@@ -27,6 +28,7 @@ if (config.NODE_ENV !== 'production') app.use(morgan('dev'))
 app.use('/api/ping', pingRoutes)
 app.use('/api/admins', adminRoutes)
 app.use('/api/events', eventRoutes)
+app.use('/api/guests', guestRoutes)
 
 // Error handler
 app.use(errorMiddleware.notFound)
