@@ -36,24 +36,25 @@ guestController.create = asyncHandler(async (req, res) => {
     }
 })
 
-// // @desc    Get all events
-// // @route   GET /api/events?page=&limit=
-// // @access  Public
-// eventController.list = asyncHandler(async (req, res) => {
-//     const { page = 1, limit = 10 } = req.query;
-//     const events = await Event.find({})
-//         .limit(limit * 1)
-//         .skip((page - 1) * limit)
-//         .sort('startedAt')
+// @desc    Get all guest by event
+// @route   GET /api/guests/event/:eventId/page=&limit=
+// @access  Private
+guestController.guestEventList = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 10 } = req.query
+    const { eventId } = req.params
+    const guests = await Guest.find({ event: eventId })
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort('createdAt')
 
-//     res.json({
-//         success: true,
-//         statusCode: 200,
-//         message: 'success',
-//         data: events,
-//         total: events.length,
-//     })
-// })
+    res.json({
+        success: true,
+        statusCode: 200,
+        message: 'success',
+        data: guests,
+        total: guests.length,
+    })
+})
 
 // // @desc    Get event detail
 // // @route   GET /api/events/:id
