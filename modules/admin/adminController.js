@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler')
+const roleTypes = require('../../consts/roleTypes')
 const authUtils = require('../../utils/authUtils')
 const Admin = require('./adminModel')
 
@@ -54,19 +55,29 @@ adminController.auth = asyncHandler(async (req, res) => {
     }
 })
 
-// // @desc    Get all users
-// // @route   GET /api/users?page=&limit=&search=
-// // @access  Private/Manager
-// const getUsers = asyncHandler(async (req, res) => {
-//     const { page = 1, limit = 10, sortby, order, search, role } = req.query;
-//     const users = await User.find({ ...filterManager(req.user, search, role) })
-//         .limit(limit * 1)
-//         .skip((page - 1) * limit)
-//         .sort(sortQuery(sortby, order))
-//         .select('-password')
+// @desc    Get all admins
+// @route   GET /api/admins?page=&limit=
+// @access  Private
+adminController.getAdmins = asyncHandler(async (req, res) => {
+    if (req.admin?.role != roleTypes.SUPERADMIN) {
+        res.status(401)
+        throw new Error('Not authorized')
+    }
+    const { page = 1, limit = 10 } = req.query;
+    const admins = await Admin.find({})
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .sort('name')
+        .select('-password')
 
-//     res.json({ total: users.length, users })
-// })
+    res.json({
+        success: true,
+        statusCode: 200,
+        message: 'success',
+        data: admins,
+        total: admins.length,
+    })
+})
 
 // // @desc    Get user by id
 // // @route   GET /api/users/:id
